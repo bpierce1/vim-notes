@@ -50,7 +50,7 @@ function! xolox#notes#mediawiki#convert_block(block) " {{{1
         let indent = repeat('#', item.indent + 1)
         let text = s:make_urls_explicit(item.text)
         let text = s:highlight_task_markers(text)
-        if text =~# "DONE"
+        if text =~# "[x]"
           call add(items, printf("%s <del>%s</del>", indent, text))
         else
           call add(items, printf("%s %s", indent, text))
@@ -61,7 +61,7 @@ function! xolox#notes#mediawiki#convert_block(block) " {{{1
         let indent = repeat('*', item.indent + 1)
         let text = s:make_urls_explicit(item.text)
         let text = s:highlight_task_markers(text)
-        if text =~# "DONE"
+        if text =~# "[x]"
           call add(items, printf("%s <del>%s</del>", indent, text))
         else
           call add(items, printf("%s %s", indent, text))
@@ -89,12 +89,12 @@ function! xolox#notes#mediawiki#convert_block(block) " {{{1
 endfunction
 
 function! s:highlight_task_markers(text)
-  " Highlight `TODO`, `DONE` and `XXX` markers with color in the Mediawiki
+  " Highlight `[ ]`, `[x]` and `XXX` markers with color in the Mediawiki
   " output similar to how the markers are highlighted by vim-notes.
   let highlighted = a:text
   let highlighted = substitute(highlighted, '\C\<XXX\>', '<span style="color:red">XXX</span>', "")
-  let highlighted = substitute(highlighted, '\C\<TODO\>', '<span style="color:red">TODO</span>', "")
-  let highlighted = substitute(highlighted, '\C\<DONE\>', '<span style="color:green">DONE</span>', "")
+  let highlighted = substitute(highlighted, '\C\[ \]', '<span style="color:red">TODO</span>', "")
+  let highlighted = substitute(highlighted, '\C\[x\]', '<span style="color:green">DONE</span>', "")
   return highlighted
 endfunction
 
